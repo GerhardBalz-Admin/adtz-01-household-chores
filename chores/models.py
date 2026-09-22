@@ -47,3 +47,15 @@ class ChoreAssignee(models.Model):
 
     def __str__(self):
         return f"{self.user} (#{self.order}) for {self.chore}"
+
+
+class ChoreCompletion(models.Model):
+    chore = models.ForeignKey(Chore, on_delete=models.CASCADE, related_name="completions")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    completed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-completed_at"]
+
+    def __str__(self):
+        return f"{self.chore} done by {self.user} at {self.completed_at}"

@@ -10,6 +10,8 @@ urlpatterns = [
     path("<int:household_pk>/chores/<int:pk>/", views.chore_detail, name="detail"),
     path("<int:household_pk>/chores/<int:pk>/edit/", views.chore_update, name="update"),
     path("<int:household_pk>/chores/<int:pk>/delete/", views.chore_delete, name="delete"),
+    path("<int:household_pk>/chores/<int:pk>/done/", views.chore_mark_done, name="mark-done"),
+    path("<int:household_pk>/history/", views.household_history, name="history"),
     path(
         "<int:household_pk>/chores/<int:pk>/assignees/add/",
         views.assignee_add,

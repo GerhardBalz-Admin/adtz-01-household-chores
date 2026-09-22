@@ -11,6 +11,10 @@
   <h2>Rotation</h2>
   {% if current_assignee %}
     <p>Currently up: <strong>{{ current_assignee.email }}</strong></p>
+    <form method="post" action="{% url 'chores:mark-done' household.pk chore.pk %}">
+      {% csrf_token %}
+      <button type="submit">Mark done</button>
+    </form>
   {% else %}
     <p>No one is in the rotation yet.</p>
   {% endif %}
@@ -40,5 +44,17 @@
     <button type="submit">Add to rotation</button>
   </form>
 
-  <p><a href="{% url 'chores:list' household.pk %}">Back to chores</a></p>
+  <h2>Recent completions</h2>
+  <ul>
+    {% for completion in completions %}
+      <li>{{ completion.user.email }} — {{ completion.completed_at }}</li>
+    {% empty %}
+      <li>No completions logged yet.</li>
+    {% endfor %}
+  </ul>
+
+  <p>
+    <a href="{% url 'chores:list' household.pk %}">Back to chores</a>
+    · <a href="{% url 'chores:history' household.pk %}">Full history</a>
+  </p>
 {% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}History — {{ household.name }}{% endblock %}
+{% block content %}
+  <h1>Completion history for {{ household.name }}</h1>
+  <ul>
+    {% for completion in completions %}
+      <li>
+        {{ completion.completed_at }} — <strong>{{ completion.chore.name }}</strong>
+        done by {{ completion.user.email }}
+      </li>
+    {% empty %}
+      <li>No chores completed yet.</li>
+    {% endfor %}
+  </ul>
+  <p><a href="{% url 'chores:list' household.pk %}">Back to chores</a></p>
+{% endblock %}

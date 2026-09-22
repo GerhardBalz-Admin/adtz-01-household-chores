@@ -2,7 +2,10 @@
 {% block title %}Chores — {{ household.name }}{% endblock %}
 {% block content %}
   <h1>Chores for {{ household.name }}</h1>
-  <p><a href="{% url 'chores:create' household.pk %}">Add a chore</a></p>
+  <p>
+    <a href="{% url 'chores:create' household.pk %}">Add a chore</a>
+    · <a href="{% url 'chores:history' household.pk %}">History</a>
+  </p>
   <ul>
     {% for chore in chores %}
       <li>

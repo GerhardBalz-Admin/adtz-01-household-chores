@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from households.models import Household
 
 from .forms import AddAssigneeForm, ChoreForm
-from .models import Chore, ChoreAssignee
+from .models import Chore, ChoreAssignee, ChoreCompletion
 
 
 def _get_household(request, household_pk):
@@ -86,8 +86,18 @@ def chore_detail(request, household_pk, pk):
             "assignees": assignees,
             "current_assignee": chore.current_assignee(),
             "add_form": add_form,
+            "completions": chore.completions.select_related("user")[:5],
         },
     )
+
+
+@login_required
+def chore_mark_done(request, household_pk, pk):
+    household, chore = _get_chore(request, household_pk, pk)
+    if request.method == "POST":
+        ChoreCompletion.objects.create(chore=chore, user=request.user)
+        chore.advance_rotation()
+    return redirect("chores:detail", household_pk=household.pk, pk=chore.pk)
 
 
 @login_required
@@ -132,3 +142,16 @@ def assignee_move(request, household_pk, pk, assignee_pk, direction):
             a.save(update_fields=["order"])
             b.save(update_fields=["order"])
     return redirect("chores:detail", household_pk=household.pk, pk=chore.pk)
+
+
+@login_required
+def household_history(request, household_pk):
+    household = _get_household(request, household_pk)
+    completions = ChoreCompletion.objects.filter(chore__household=household).select_related(
+        "chore", "user"
+    )
+    return render(
+        request,
+        "chores/household_history.html",
+        {"household": household, "completions": completions},
+    )
