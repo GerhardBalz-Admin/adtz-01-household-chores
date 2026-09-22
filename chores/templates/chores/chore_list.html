@@ -6,15 +6,23 @@
     <a href="{% url 'chores:create' household.pk %}">Add a chore</a>
     · <a href="{% url 'chores:history' household.pk %}">History</a>
   </p>
-  <ul>
+  <table>
+    <tr>
+      <th>Chore</th>
+      <th>Assignee</th>
+      <th>Due</th>
+      <th>Status</th>
+    </tr>
     {% for chore in chores %}
-      <li>
-        <a href="{% url 'chores:detail' household.pk chore.pk %}">{{ chore.name }}</a>
-        — every {{ chore.frequency_days }} day{{ chore.frequency_days|pluralize }}
-      </li>
+      <tr{% if chore.is_overdue %} style="color: red;"{% endif %}>
+        <td><a href="{% url 'chores:detail' household.pk chore.pk %}">{{ chore.name }}</a></td>
+        <td>{{ chore.current_assignee.email|default:"—" }}</td>
+        <td>{{ chore.next_due_at }}</td>
+        <td>{% if chore.is_overdue %}Overdue{% else %}On track{% endif %}</td>
+      </tr>
     {% empty %}
-      <li>No chores yet.</li>
+      <tr><td colspan="4">No chores yet.</td></tr>
     {% endfor %}
-  </ul>
+  </table>
   <p><a href="{% url 'households:detail' household.pk %}">Back to household</a></p>
 {% endblock %}

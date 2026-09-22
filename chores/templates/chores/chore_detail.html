@@ -4,6 +4,10 @@
   <h1>{{ chore.name }}</h1>
   <p>Repeats every {{ chore.frequency_days }} day{{ chore.frequency_days|pluralize }}.</p>
   <p>
+    Due: {{ chore.next_due_at }}
+    {% if chore.is_overdue %}<strong style="color: red;">(overdue)</strong>{% endif %}
+  </p>
+  <p>
     <a href="{% url 'chores:update' household.pk chore.pk %}">Edit</a>
     · <a href="{% url 'chores:delete' household.pk chore.pk %}">Delete</a>
   </p>

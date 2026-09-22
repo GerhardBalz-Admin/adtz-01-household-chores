@@ -19,7 +19,7 @@ def _get_chore(request, household_pk, pk):
 @login_required
 def chore_list(request, household_pk):
     household = _get_household(request, household_pk)
-    chores = household.chores.all()
+    chores = sorted(household.chores.all(), key=lambda c: c.next_due_at())
     return render(
         request, "chores/chore_list.html", {"household": household, "chores": chores}
     )

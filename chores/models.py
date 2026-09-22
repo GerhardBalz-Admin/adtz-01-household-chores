@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 
 from households.models import Household
 
@@ -34,6 +35,17 @@ class Chore(models.Model):
         if count:
             self.current_turn_index = (self.current_turn_index + 1) % count
             self.save(update_fields=["current_turn_index"])
+
+    def last_completed_at(self):
+        completion = self.completions.order_by("-completed_at").first()
+        return completion.completed_at if completion else None
+
+    def next_due_at(self):
+        base = self.last_completed_at() or self.created_at
+        return base + timezone.timedelta(days=self.frequency_days)
+
+    def is_overdue(self):
+        return self.next_due_at() < timezone.now()
 
 
 class ChoreAssignee(models.Model):
