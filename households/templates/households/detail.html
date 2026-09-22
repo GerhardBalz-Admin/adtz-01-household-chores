@@ -7,4 +7,5 @@
   <ul>
     {% for member in household.members.all %}<li>{{ member.email }}</li>{% endfor %}
   </ul>
+  <p><a href="{% url 'chores:list' household.pk %}">View chores</a></p>
 {% endblock %}

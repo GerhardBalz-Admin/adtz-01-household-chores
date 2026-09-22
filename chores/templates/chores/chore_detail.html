@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}{{ chore.name }}{% endblock %}
+{% block content %}
+  <h1>{{ chore.name }}</h1>
+  <p>Repeats every {{ chore.frequency_days }} day{{ chore.frequency_days|pluralize }}.</p>
+  <p>
+    <a href="{% url 'chores:update' household.pk chore.pk %}">Edit</a>
+    · <a href="{% url 'chores:delete' household.pk chore.pk %}">Delete</a>
+  </p>
+
+  <h2>Rotation</h2>
+  {% if current_assignee %}
+    <p>Currently up: <strong>{{ current_assignee.email }}</strong></p>
+  {% else %}
+    <p>No one is in the rotation yet.</p>
+  {% endif %}
+
+  <ol>
+    {% for assignee in assignees %}
+      <li{% if assignee.user_id == current_assignee.id %} style="font-weight: bold;"{% endif %}>
+        {{ assignee.user.email }}
+        <form method="post" action="{% url 'chores:assignee-move' household.pk chore.pk assignee.pk 'up' %}" style="display:inline;">
+          {% csrf_token %}<button type="submit">↑</button>
+        </form>
+        <form method="post" action="{% url 'chores:assignee-move' household.pk chore.pk assignee.pk 'down' %}" style="display:inline;">
+          {% csrf_token %}<button type="submit">↓</button>
+        </form>
+        <form method="post" action="{% url 'chores:assignee-remove' household.pk chore.pk assignee.pk %}" style="display:inline;">
+          {% csrf_token %}<button type="submit">Remove</button>
+        </form>
+      </li>
+    {% empty %}
+      <li>Nobody assigned.</li>
+    {% endfor %}
+  </ol>
+
+  <form method="post" action="{% url 'chores:assignee-add' household.pk chore.pk %}">
+    {% csrf_token %}
+    {{ add_form.as_p }}
+    <button type="submit">Add to rotation</button>
+  </form>
+
+  <p><a href="{% url 'chores:list' household.pk %}">Back to chores</a></p>
+{% endblock %}

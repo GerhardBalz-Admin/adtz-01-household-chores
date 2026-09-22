@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Chores — {{ household.name }}{% endblock %}
+{% block content %}
+  <h1>Chores for {{ household.name }}</h1>
+  <p><a href="{% url 'chores:create' household.pk %}">Add a chore</a></p>
+  <ul>
+    {% for chore in chores %}
+      <li>
+        <a href="{% url 'chores:detail' household.pk chore.pk %}">{{ chore.name }}</a>
+        — every {{ chore.frequency_days }} day{{ chore.frequency_days|pluralize }}
+      </li>
+    {% empty %}
+      <li>No chores yet.</li>
+    {% endfor %}
+  </ul>
+  <p><a href="{% url 'households:detail' household.pk %}">Back to household</a></p>
+{% endblock %}

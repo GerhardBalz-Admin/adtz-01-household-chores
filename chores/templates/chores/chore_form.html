@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{% if chore %}Edit chore{% else %}New chore{% endif %}{% endblock %}
+{% block content %}
+  <h1>{% if chore %}Edit {{ chore.name }}{% else %}New chore{% endif %}</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+  <p>
+    <a href="{% url 'chores:list' household.pk %}">Back to chores</a>
+  </p>
+{% endblock %}

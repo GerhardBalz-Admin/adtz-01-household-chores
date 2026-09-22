@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Delete {{ chore.name }}{% endblock %}
+{% block content %}
+  <h1>Delete "{{ chore.name }}"?</h1>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+    <a href="{% url 'chores:detail' household.pk chore.pk %}">Cancel</a>
+  </form>
+{% endblock %}
