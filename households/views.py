@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import CreateHouseholdForm, JoinHouseholdForm
 from .models import Household, Membership
@@ -46,5 +46,5 @@ def join(request):
 
 @login_required
 def detail(request, pk):
-    household = Household.objects.get(pk=pk, members=request.user)
+    household = get_object_or_404(Household, pk=pk, members=request.user)
     return render(request, "households/detail.html", {"household": household})
