@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}{{ household.name }}{% endblock %}
+{% block content %}
+  <h1>{{ household.name }}</h1>
+  <p>Invite code: <code>{{ household.invite_code }}</code></p>
+  <h2>Members</h2>
+  <ul>
+    {% for member in household.members.all %}<li>{{ member.email }}</li>{% endfor %}
+  </ul>
+{% endblock %}

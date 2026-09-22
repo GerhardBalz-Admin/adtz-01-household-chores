@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Join or create a household{% endblock %}
+{% block content %}
+  <h1>Create a household</h1>
+  <form method="post" action="{% url 'households:create' %}">
+    {% csrf_token %}
+    {{ create_form.as_p }}
+    <button type="submit">Create</button>
+  </form>
+
+  <h1>Join a household</h1>
+  <form method="post" action="{% url 'households:join' %}">
+    {% csrf_token %}
+    {{ join_form.as_p }}
+    <button type="submit">Join</button>
+  </form>
+{% endblock %}
