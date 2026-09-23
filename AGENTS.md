@@ -2,15 +2,9 @@
 
 This repository is the AI Dev Tools Zoomcamp 2026 Homework 1 Django household-chores exercise. Read `_docs/plan.md` and `_docs/backlog.md` before changing behavior. Keep changes within the agreed homework scope; do not start deferred tasks such as email reminders without an explicit request.
 
-## Environment and commands
+## Environment
 
-Run commands from the repository root. The project uses Python 3.14 or later and `uv` for dependencies.
-
-- `uv sync --locked` — install dependencies and fail if `uv.lock` needs updating.
-- `uv run python manage.py runserver` — run the Django development server.
-- `uv run python manage.py test` — run the Django test suite.
-
-Add a new dependency with `uv add <package-name>` only when the requested task calls for it; explain and confirm the dependency choice before changing `pyproject.toml` and `uv.lock`.
+Use `uv` for Python dependency management.
 
 ## Working practice
 
