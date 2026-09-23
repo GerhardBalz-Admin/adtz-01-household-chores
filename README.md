@@ -2,7 +2,7 @@
 
 A Django web app for managing shared household chores.
 
-See [`_docs/plan.md`](_docs/plan.md) for the project scope and plan.
+See [`_docs/plan.md`](_docs/plan.md) for the project scope and plan, and [`_docs/homework-answers.md`](_docs/homework-answers.md) for the Homework 1 answers.
 
 ## Course materials
 
